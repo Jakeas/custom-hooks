@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 import Button from "../theme/Button";
+import { useForm } from "../hooks/useForm";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -23,21 +24,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignupForm() {
   const classes = useStyles();
-  const [firstName, setFirstName] = useState("");
+  const [values, handleChanges, clearForm] = useForm(initialValues)
+  // make it set to useForm() instead of useState("")
+  // change firstName to values to generalize
+  // this array is the same as the return from the hook
+  // if it isn't being used after the transfer (setFirstName) then get rid of it
+  // don't forget to transfer handleChanges and clearForm back to state
 
-  const handleChanges = e => {
-    setFirstName(e.target.value);
-  };
+// const handleChange transferred to useForm
+
+// const clearForm transferred to useForm
+
+  const initialValues = {
+    firstName: "",
+    lastName: ""
+}
 
   const handleSubmit = e => {
     e.preventDefault();
-    alert(firstName);
+    alert(`${values.firstName} ${values.lastName}`)
+    //add values - make it values.firstName
   };
 
-  const clearForm = e => {
-    e.preventDefault();
-    setFirstName("");
-  };
+
 
   return (
     <div p={2} className="form">
@@ -49,7 +58,19 @@ export default function SignupForm() {
             label="First Name"
             className={classes.textField}
             name="firstName"
-            value={firstName}
+            value={values.firstName}
+            // add values - make it values.firstName
+            onChange={handleChanges}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-name"
+            label="Last Name"
+            className={classes.textField}
+            name="lastName"
+            value={values.lastName}
+            // add values - make it values.lastName
             onChange={handleChanges}
             margin="normal"
             variant="outlined"
